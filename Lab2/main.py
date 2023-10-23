@@ -141,3 +141,69 @@ def ascii_div_x(x=1, strings=None, flag=True):
 # print(ascii_div_x(2, ["test", "hello", "lab002"], False))
 
 
+#     9. Write a function that receives as parameter a matrix which represents the heights of the spectators in a
+#     stadium and will return a list of tuples (line, column) each one representing a seat of a spectator which can't
+#     see the game. A spectator can't see the game if there is at least one taller spectator standing in front of him.
+#     All the seats are occupied. All the seats are at the same level. Row and column indexing starts from 0,
+#     beginning with the closest row from the field.
+
+
+def spec_cant_see(matrix):
+    result = []
+    for j in range(0, len(matrix[0])):
+        tallest_spec = matrix[0][j]
+        for i in range(1, len(matrix)):
+            if matrix[i][j] < tallest_spec:
+                result.append((i, j))
+            elif matrix[i][j] > tallest_spec:
+                tallest_spec = matrix[i][j]
+    return result
+
+
+# print(spec_cant_see([[1, 2, 3, 2, 1, 1],
+#                      [2, 4, 4, 3, 7, 2],
+#                      [5, 5, 2, 5, 6, 4],
+#                      [6, 6, 7, 6, 7, 5]]))
+
+
+# 10. Write a function that receives a variable number of lists and returns a list of tuples as follows: the first
+# tuple contains the first items in the lists, the second element contains the items on the position 2 in the lists,
+# etc. Ex: for lists [1,2,3], [5,6,7], ["a", "b", "c"] return: [(1, 5, "a ") ,(2, 6, "b"), (3,7, "c")].
+
+
+def elements_by_positions(*lists):
+    result = []
+    for i in range(0, max(len(x) for x in lists)):
+        result.append(tuple(((lst[i] if len(lst) > i else None) for lst in lists)))
+    return result
+
+
+# print(elements_by_positions([1, 2, 3], [5, 6, 7, 9], ["a", "b", "c"]))
+
+#       11. Write a function that will order a list of string tuples based on the 3rd character of the 2nd element in
+#       the tuple. Example: ('abc', 'bcd'), ('abc', 'zza')] ==> [('abc', 'zza'), ('abc', 'bcd')]
+
+def order_2nd_el_3rd_char(input_list):
+    input_list.sort(key=lambda x: x[1][2])
+    return input_list
+
+
+# print(order_2nd_el_3rd_char([('abc', 'bcd'), ('abc', 'zza')]))
+
+
+#      12. Write a function that will receive a list of words  as parameter and will return a list of lists of words,
+#      grouped by rhyme. Two words rhyme if both of them end with the same 2 letters.
+
+def group_by_rhyme(input_list):
+    endings = set(map(lambda x: x[-2:], input_list))
+    result = []
+    for ending in endings:
+        new_list = []
+        for string in input_list:
+            if string[-2:] == ending:
+                new_list.append(string)
+        result.append(new_list)
+    return result
+
+
+print(group_by_rhyme(['ana', 'banana', 'carte', 'arme', 'parte']))
