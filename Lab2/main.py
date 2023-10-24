@@ -38,16 +38,62 @@ def prime_numbers(numbers):
 #      3. Write a function that receives as parameters two lists a and b and
 #      returns: (a intersected with b, a reunited with b, a - b, b - a)
 
-def union(list1, list2):
-    return list(set(list1) | set(list2))
+
+def ex3_corect(list1, list2):
+    list1_map = {}
+    list2_map = {}
+    for x in list1:
+        if x in list1_map:
+            list1_map[x] += 1
+        else:
+            list1_map[x] = 1
+
+    for x in list2:
+        if x in list2_map:
+            list2_map[x] += 1
+        else:
+            list2_map[x] = 1
+    list2_saved = list2_map.copy()
+
+    intersection = []
+    for x in list1:
+        if x in list2_map and list2_map[x] > 0:
+            intersection.append(x)
+            list2_map[x] -= 1
+
+    union = []
+    for x in list1:
+        union.append(x)
+        if x in list2_map and list2_map[x] > 0:
+            list2_map[x] -= 1
+    for x in list2:
+        if list2_map[x] > 0:
+            list2_map[x] -= 1
+            union.append(x)
+
+    list2_map = list2_saved.copy()
+    list1_minus_list2 = []
+    for x in list1:
+        if x not in list2_map:
+            list1_minus_list2.append(x)
+        elif list2_map[x] > 0:
+            list2_map[x] -= 1
+        else:
+            list1_minus_list2.append(x)
+
+    list2_minus_list1 = []
+    for x in list2:
+        if x not in list1_map:
+            list2_minus_list1.append(x)
+        elif list1_map[x] > 0:
+            list1_map[x] -= 1
+        else:
+            list2_minus_list1.append(x)
+
+    return tuple((intersection, union, list1_minus_list2, list2_minus_list1))
 
 
-def intersection(list1, list2):
-    return list(set(list1) & set(list2))
-
-
-def difference(list1, list2):
-    return list(set(list1) - set(list2))
+print(ex3_corect([3, 5, 7, 8, 8], [3, 3, 4, 6, 8]))
 
 
 #      4. Write a function that receives as a parameters a list of musical notes
