@@ -116,13 +116,13 @@ def compose(notes, moves, start):
 # 5. Write a function that receives as parameter a matrix and will return the matrix obtained by replacing all the
 # elements under the main diagonal with 0 (zero).
 
-def zero_on_main_diag(matrix):
-    for i in range(0, len(matrix)):
-        matrix[i][i] = 0
+def zero_under_main_diag(matrix):
+    for i in range(len(matrix) - 1):
+        matrix[i+1][i] = 0
     return matrix
 
 
-# print(zero_on_main_diag([[2, 3, 6], [6, 8, 13], [5, 7, 8]]))
+print(zero_under_main_diag([[2, 3, 6], [6, 8, 13], [5, 7, 8]]))
 
 # 6. Write a function that receives as a parameter a variable number of lists and a whole number x. Return a list
 # containing the items that appear exactly x times in the incoming lists.
