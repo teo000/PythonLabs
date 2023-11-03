@@ -45,11 +45,13 @@ def ex3(a, b):
     if isinstance(a, dict):
         if a.keys() != b.keys():
             return False
-        return all(ex3(a[x], a[y]) for x, y in a)
+        return all(ex3(a[x], b[x]) for x in a)
     if isinstance(a, (list, tuple)):
         if len(a) != len(b):
             return False
         return all(ex3(a[i], b[i]) for i in range(len(a)))
+    if isinstance(a, set):
+        return len(set.symmetric_difference(a, b)) == 0
     return a == b
 
 
@@ -86,16 +88,20 @@ def build_xml_element(tag, content, **kwargs):
 # d= {"key1": "come inside, it's too cold out", "key3": "this is not valid"}
 # => False because although the rules are respected for "key1" and "key2" "key3"
 # that does not appear in the rules.
-
+# sa nu se suprapuna sufixul cu prefixul
 def validate_dict(rule_set, d):
     for key, value in d.items():
         rules = [rule for rule in rule_set if rule[0] == key]
+        if len(rules) == 0:
+            return False
         for rule in rules:
             if not value.startswith(rule[1]):
                 return False
+            value.removeprefix(rule[1])
             if not value.endswith(rule[3]):
                 return False
-            if value[1:-1].find(rule[2]) < 0:
+            value.removesuffix(rule[3])
+            if value.find(rule[2]) < 0:
                 return False
     return True
 
