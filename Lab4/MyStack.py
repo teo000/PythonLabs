@@ -21,5 +21,5 @@ class MyStack:
     def is_empty(self):
         return len(self.__elements) == 0
 
-    def len(self):
+    def length(self):
         return len(self.__elements)
