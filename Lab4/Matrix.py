@@ -1,3 +1,6 @@
+import copy
+
+
 class Matrix:
     def __init__(self, n, m, init=0):
         self.__n = n
@@ -14,7 +17,7 @@ class Matrix:
         return self.__m
 
     def set(self, i, j, value):
-        self.__elements[i][j] = value
+        self.__elements[i][j] = copy.deepcopy(value)
 
     def transpose(self):
         new_matrix = Matrix(self.__m, self.__n)

@@ -1,9 +1,12 @@
+import copy
+
+
 class MyStack:
     def __init__(self):
         self.__elements = []
 
     def push(self, obj):
-        self.__elements.append(obj)
+        self.__elements.append(copy.deepcopy(obj))
 
     def pop(self):
         if len(self.__elements) == 0:
