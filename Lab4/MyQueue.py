@@ -1,19 +1,25 @@
+import copy
+
+
 class MyQueue:
     def __init__(self):
-        self.elements = []
+        self.__elements = []
 
     def push(self, obj):
-        self.elements.append(obj)
+        self.__elements.append(copy.deepcopy(obj))
 
     def pop(self):
-        if len(self.elements) == 0:
+        if len(self.__elements) == 0:
             return None
-        result = self.elements[0]
-        self.elements = self.elements[1:]
+        result = self.__elements[0]
+        self.__elements = self.__elements[1:]
         return result
 
     def peek(self):
-        return self.elements[0] if len(self.elements) > 0 else None
+        return self.__elements[0] if len(self.__elements) > 0 else None
 
     def is_empty(self):
-        return len(self.elements) == 0
+        return len(self.__elements) == 0
+
+    def length(self):
+        return len(self.__elements)

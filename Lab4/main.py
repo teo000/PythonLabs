@@ -18,7 +18,6 @@ print(s.is_empty())
 
 m = Matrix(3, 5)
 
-print(m.elements)
 
 m.set(2, 3, 5)
 m.set(1, 2, 7)
