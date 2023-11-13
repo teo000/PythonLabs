@@ -14,7 +14,7 @@ class Shape:
 class Circle(Shape):
     def __init__(self, x, y, radius):
         if radius < 0:
-            raise Exception("Circle radius must be a positive number")
+            raise ValueError("Circle radius must be a positive number")
 
         super().__init__(x, y)
         self.no_of_edges = 0
@@ -30,9 +30,9 @@ class Circle(Shape):
 class Rectangle(Shape):
     def __init__(self, x, y, height, width):
         if height < 0:
-            raise Exception("Rectangle height must be a positive number")
+            raise ValueError("Rectangle height must be a positive number")
         if width < 0:
-            raise Exception("Rectangle width must be a positive number")
+            raise ValueError("Rectangle width must be a positive number")
 
         super().__init__(x, y)
         self.no_of_edges = 4
@@ -50,28 +50,28 @@ class Rectangle(Shape):
 
 
 class Triangle(Shape):
-    def __init__(self, x, y, len_a, len_b, len_c):
+    def __init__(self, x, y, side_a, side_b, side_c):
         super().__init__(x, y)
         self.no_of_edges = 3
-        self.edges = [len_a, len_b, len_c]
+        self.sides = [side_a, side_b, side_c]
 
-        if len_a < 0 or len_b < 0 or len_c < 0:
-            raise Exception("Triangle edge lengths must be positive numbers")
+        if side_a < 0 or side_b < 0 or side_c < 0:
+            raise ValueError("Triangle edge lengths must be positive numbers")
 
-        if len_a > len_b + len_c or len_b > len_a + len_c or len_c > len_a + len_b:
-            raise Exception("Invalid edge lengths provided")
+        if side_a > side_b + side_c or side_b > side_a + side_c or side_c > side_a + side_b:
+            raise ValueError("Invalid edge lengths provided")
 
     def area(self):
         s = self.perimeter() / 2
-        return ((s - self.edges[0]) * (s - self.edges[1]) * (s - self.edges[2]) * s) ** (1 / 2)
+        return ((s - self.sides[0]) * (s - self.sides[1]) * (s - self.sides[2]) * s) ** (1 / 2)
 
     def perimeter(self):
-        return self.edges[0] + self.edges[1] + self.edges[2]
+        return self.sides[0] + self.sides[1] + self.sides[2]
 
     def is_right_triangle(self):
-        longest_edge = max(self.edges)
+        longest_edge = max(self.sides)
         s = 0
-        for edge in self.edges:
+        for edge in self.sides:
             if edge != longest_edge:
                 s += edge ** 2
         return longest_edge ** 2 == s
@@ -104,9 +104,10 @@ class CheckingAccount(Account):
 
 
 class SavingsAccount(Account):
+    INTEREST_RATE = 0.04
+
     def __init__(self, owner, date_of_creation):
         super().__init__(owner, date_of_creation)
-        self.interest = 0.04
         self.withdrawals_per_month = 6
 
     def withdrawal(self, amount):
@@ -119,7 +120,7 @@ class SavingsAccount(Account):
             self.withdrawals_per_month -= 1
 
     def compute_interest(self):
-        return self.balance * self.interest
+        return self.balance * SavingsAccount.INTEREST_RATE
 
 
 # Create a base class Vehicle with attributes like make, model, and year, and
@@ -206,7 +207,7 @@ class Manager(Employee):
         try:
             self.employees_managed.remove(employee)
         except ValueError:
-            print("Employee is not currently managed by manager", self.name)
+            raise ValueError(f"Employee {employee.name} is not currently managed by manager {self.name}")
 
 
 class Engineer(Employee):
@@ -238,7 +239,7 @@ class Salesperson(Employee):
         try:
             self.products_sold.remove(product)
         except ValueError:
-            print("Product is not currently sold by salesperson", self.name)
+            raise ValueError(f"Product {product} is not currently sold by salesperson {self.name}")
 
 
 # 5. Create a class hierarchy for animals, starting with a base class Animal.
