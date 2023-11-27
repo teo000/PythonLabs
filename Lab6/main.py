@@ -69,6 +69,8 @@ def ex3():
                 try:
                     size = os.path.getsize(full_file_name)
                     total_size += size
+                except PermissionError as e:
+                    raise PermissionError(f"Insufficient permissions to access file {full_file_name}") from e
                 except OSError as e:
                     raise OSError(f"Error accessing {full_file_name}") from e
         return total_size
@@ -77,4 +79,26 @@ def ex3():
         raise Exception("Script takes 1 argument")
     directory_path = sys.argv[1]
     print(directory_size(directory_path))
+
+
+def ex4():
+    def no_of_files_with_ext(dir_path):
+        if not os.path.exists(dir_path) or not os.path.isdir(dir_path):
+            raise FileNotFoundError(f"Directory name not valid or directory does not exist")
+        files = os.listdir(dir_path)
+        files_dict = {}
+        for file in files:
+            full_file_path = os.path.join(dir_path, file)
+            if os.path.isfile(full_file_path):
+                file_ext = os.path.splitext(file)[1]
+                if file_ext in files_dict:
+                    files_dict[file_ext] += 1
+                else:
+                    files_dict[file_ext] = 1
+        return files_dict
+
+    if len(sys.argv) != 2:
+        raise Exception("Script takes 1 parameter")
+    directory_name = sys.argv[1]
+    print(no_of_files_with_ext(directory_name))
 
